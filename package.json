@@ -1,0 +1,17 @@
+{
+  "name": "Moonbox.io Nebula",
+  "version": "1.0.0",
+  "description": "A game for Monbox.io",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js",
+    "start": "node server.js",
+    "debug": "node inspect server.js"
+  },
+  "author": "Witherman17",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.0.3"
+  }
+}
