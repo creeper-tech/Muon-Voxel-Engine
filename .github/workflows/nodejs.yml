@@ -25,4 +25,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: node server.js
+    - run: npm install --save socket.io
+
     
