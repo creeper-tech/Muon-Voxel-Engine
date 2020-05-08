@@ -385,12 +385,7 @@ Server.prototype.onConnection = function( socket )
 		return;
 	}
 
-	// Prevent people from blocking the server with multiple open clients
-	if ( this.activeAddresses[this.getIp(socket)] && this.oneUserPerIp )
-	{
-		this.kick( socket, "Multiple clients connecting from the same IP address!" );
-		return;
-	}
+
 	this.activeAddresses[this.getIp(socket)] = true;
 	this.usedSlots++;
 
