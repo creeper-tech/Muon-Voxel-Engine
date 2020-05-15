@@ -9,6 +9,7 @@ MOUSE = {};
 MOUSE.DOWN = 1;
 MOUSE.UP = 2;
 MOUSE.MOVE = 3;
+CAN_FLY = true;
 
 // Constructor()
 //
@@ -206,12 +207,13 @@ Player.prototype.update = function()
 			velocity.z += -0.5;
 
 		// Jumping
-		if ( this.keys[" "] && !this.falling )
+		if ( (this.keys[" "] && (!this.falling)) ||  (this.keys["x"] && CAN_FLY))
 			velocity.z = 8;
-
+ 
+    
 		// Walking
 		var walkVelocity = new Vector( 0, 0, 0 );
-		if ( !this.falling )
+		if ( !this.falling || this.falling )
 		{
 			if ( this.keys["w"] ) {
 				walkVelocity.x += Math.cos( Math.PI / 2 - this.angles[1] );
@@ -231,9 +233,19 @@ Player.prototype.update = function()
 			}
 		}
 		if ( walkVelocity.length() > 0 ) {
+      if( !this.keys["z"] && !this.keys["q"]){
 				walkVelocity = walkVelocity.normal();
-				velocity.x = walkVelocity.x * 4;
-				velocity.y = walkVelocity.y * 4;
+				velocity.x = walkVelocity.x * 8;
+				velocity.y = walkVelocity.y * 8;
+      } else if(this.keys["z"]){
+        walkVelocity = walkVelocity.normal();
+				velocity.x = walkVelocity.x * 16;
+				velocity.y = walkVelocity.y * 16;
+      }else if( this.keys["q"] ){
+        walkVelocity = walkVelocity.normal();
+				velocity.x = walkVelocity.x * 2;
+				velocity.y = walkVelocity.y * 2;
+      }
 		} else {
 			velocity.x /= this.falling ? 1.01 : 1.5;
 			velocity.y /= this.falling ? 1.01 : 1.5;
@@ -245,6 +257,7 @@ Player.prototype.update = function()
 
 	this.lastUpdate = new Date().getTime();
 }
+
 
 // resolveCollision( pos, bPos, velocity )
 //
