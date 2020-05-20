@@ -162,10 +162,26 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 	{
 		var obj = this.client ? this.client : this.world;
 		
-		if ( destroy )
-			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-		else
+		if ( destroy ){
+      if(world.getBlock(block.x, block.y, block.z).id != 4 || !this.keys["e"]){
+        obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
+        
+        
+      }else{
+        
+        world.setBlock( block.x, block.y, block.z, BLOCK.LAVA );
+        world.setBlock( block.x-1, block.y, block.z, BLOCK.LAVA );
+        world.setBlock( block.x+1, block.y, block.z, BLOCK.LAVA );
+        world.setBlock( block.x, block.y-1, block.z, BLOCK.LAVA );
+        world.setBlock( block.x, block.y+1, block.z, BLOCK.LAVA );
+        world.setBlock( block.x, block.y, block.z-1, BLOCK.LAVA );
+        world.setBlock( block.x, block.y, block.z+1, BLOCK.LAVA );
+        
+      }
+    } else{
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
+      
+    }
 	}
 }
 
