@@ -8,7 +8,7 @@
     "start": "node server.js",
     "debug": "node inspect server.js"
   },
-  "author": "Witherman17",
+  "author": "MoonBox.io",
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
