@@ -1,6 +1,13 @@
-MBIO-Nebula
+Muon Voxel Engine
 ---------------------
 
+Team
+---------------------
+Original Code by: @Overv (Alexander Overvoorde)
+Head Developer: @retropieman
+Beta Testers:
+- JimmySparkles
+- catsarooni
 
 
 
@@ -101,3 +108,5 @@ That concludes the set-up code. The render loop can be constructed with a timer 
 	}, 1 );
 
 To see how the material selector and canvas can be set-up, have a look at *singleplayer.html* and *style/main.css*. Note that the player and physics modules are entirely optional, so you could just as well use this code as a base for making a Minecraft map viewer on your website.
+
+
