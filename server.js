@@ -12,8 +12,8 @@ var WORLD_SZ = 32;
 var WORLD_GROUNDHEIGHT = 16;
 var SECONDS_BETWEEN_SAVES = 60; // The interval between games saves
 var ADMIN_IP = "::ffff:172.18.0.1"; // deprecated, use ADMIN_PASSWORD instead
-var ADMIN_PASSWORD = "Pwd"; // set this to whatever you would like the password to be (no spaces)
-var ADMIN_NICKNAME = ""; // do not change this value
+var ADMIN_PASSWORD = "Pwd"; // set this to whatever you would like the password to be (no spaces, make sure to follow JS syntax rules.)
+var ADMIN_NICKNAMES = [""]; // do not change this value
 
 // Load modules
 var modules = {};
@@ -66,45 +66,24 @@ server.on( "chat", function( client, nickname, msg )
 			server.sendMessage( "Couldn't find that player!", client );
 			return false;
 		}
-	} else if ( msg.substr( 0, 5 ) == "/kick" && ADMIN_NICKNAME == nickname ) {
-		var target = msg.substr( 6 );
-		target = server.findPlayerByName( target );
-		
-		if ( target != null ) {
-				server.kick( target.socket, "Kicked by Admin: " + nickname );
-				return true;
-		} else {
-			server.sendMessage( "Couldn't find that player!", client );
-			return false;
-		}
 	} else if ( msg == "/list" ) {
-		var playerlist = "";
-		for ( var p in world.players )
-			playerlist += p + ", ";
-		playerlist = playerlist.substring( 0, playerlist.length - 2 );
-		server.sendMessage( "Players: " + playerlist, client );
-		return true;
-  } else if (msg.substr( 0, 5 ) == "/admin"){
-    var splitres = msg.split(" ");
-    var target = splitres[1];
-    if(target == ADMIN_PASSWORD && ADMIN_NICKNAME == ""){
-      ADMIN_NICKNAME = nickname;
-      server.sendMessage( "Sucessfully Logged in " + nickname, client );
-      console.log("Sucessfully Logged in " + nickname);
-			return true;
-
-    } else if(ADMIN_NICKNAME != ""){
-      server.sendMessage( "There can only be one admin logged in at a time.", client );
-			return false;
-    } else{
-      server.sendMessage( "Incorrect password.", client );
-			return false;
-    } 
-    } else if(msg == "/save"){
+      var playerlist = "";
+      for ( var p in world.players )
+        playerlist += p + ", ";
+      playerlist = playerlist.substring( 0, playerlist.length - 2 );
+      server.sendMessage( "Players: " + playerlist, client );
+      return true;
+    }else if(msg == "/save"){
       world.saveToFile( "world" );
 	    console.log( "Saved world to file, invoked by user: " + nickname );
       server.sendMessage("World saved.");
       return true;
+    }else if(msg == "/clean"){
+      console.log("World deleted.")
+      modules.fs.unlinkSync("world");
+      console.log("World deleted.")
+      process.exit();
+
     } else if (msg == "/help"){
       server.sendMessage("/spawn = Sets the spawnpoint at the current player");
       server.sendMessage("/tp <nickname> = Teleport to any player");
@@ -129,9 +108,7 @@ server.on( "join", function( client, nickname )
 server.on( "leave", function( nickname )
 {
 	server.sendMessage( nickname + " left the game." );
-  if(nickname == ADMIN_NICKNAME ){
-    ADMIN_NICKNAME = ""
-  }
+  
 } );
 
 // Periodical saves
